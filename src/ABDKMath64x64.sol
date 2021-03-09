@@ -108,6 +108,10 @@ library ABDKMath64x64 {
     return int128 (result);
   }
 
+  function us_add (int128 x, int128 y) internal pure returns (int128) {
+    return int128(int256(x) + y);
+  }
+
   /**
    * Calculate x - y.  Revert on overflow.
    *
@@ -121,6 +125,10 @@ library ABDKMath64x64 {
     return int128 (result);
   }
 
+  function us_sub (int128 x, int128 y) internal pure returns (int128) {
+    return int128( int256(x) - y );
+  }
+
   /**
    * Calculate x * y rounding down.  Revert on overflow.
    *
@@ -132,6 +140,10 @@ library ABDKMath64x64 {
     int256 result = int256(x) * y >> 64;
     require (result >= MIN_64x64 && result <= MAX_64x64);
     return int128 (result);
+  }
+
+  function us_mul (int128 x, int128 y) internal pure returns (int128) {
+    return int128(int256(x) * y >> 64);
   }
 
   /**
@@ -203,10 +215,7 @@ library ABDKMath64x64 {
    * @return signed 64.64-bit fixed point number
    */
   function div (int128 x, int128 y) internal pure returns (int128) {
-    require (y != 0);
-    int256 result = (int256 (x) << 64) / y;
-    require (result >= MIN_64x64 && result <= MAX_64x64);
-    return int128 (result);
+    return int128((int256 (x) << 64) / y);
   }
 
   /**
